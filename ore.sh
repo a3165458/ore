@@ -183,7 +183,9 @@ function claim_rewards() {
 }
 
 
-
+function check_logs() {
+    screen -r ore
+}
 
 
 
@@ -202,6 +204,7 @@ function main_menu() {
         echo "3. 单独启动运行"
         echo "4. 查看挖矿收益"
         echo "5. 领取挖矿收益"
+        echo "6. 查看节点运行情况"
         read -p "请输入选项（1-3）: " OPTION
 
         case $OPTION in
@@ -210,6 +213,7 @@ function main_menu() {
         3) start ;;
         4) view_rewards ;;
         5) claim_rewards ;;
+        6) check_logs ;;
         esac
         echo "按任意键返回主菜单..."
         read -n 1
