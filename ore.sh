@@ -84,7 +84,7 @@ function export_wallet() {
     
     echo "正在恢复Solana钱包..."
     # 提示用户输入助记词
-    echo "请输入你的助记词，用空格分隔："
+    echo "下方请粘贴/输入你的助记词，用空格分隔，盲文不会显示的"
 
     # 使用助记词恢复钱包
     solana-keygen recover 'prompt:?key=0/0' --force
