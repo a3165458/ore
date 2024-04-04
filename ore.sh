@@ -184,7 +184,7 @@ function main_menu() {
         echo "1. 安装新节点"
         echo "2. 导入钱包运行"
         echo "3. 单独启动运行"
-        read -p "请输入选项（1-2）: " OPTION
+        read -p "请输入选项（1-3）: " OPTION
 
         case $OPTION in
         1) install_node ;;
