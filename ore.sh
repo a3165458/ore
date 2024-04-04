@@ -195,6 +195,65 @@ function check_logs() {
 }
 
 
+function multiple() {
+#!/bin/bash
+
+# 用户输入要生成的钱包配置文件数量
+#!/bin/bash
+
+# 提示用户输入RPC配置地址
+read -p "请输入RPC配置地址: " rpc_address
+
+# 用户输入要生成的钱包配置文件数量
+read -p "请输入你想要生成的钱包配置文件数量: " count
+
+# 基础会话名
+session_base_name="ore"
+
+# 启动命令模板，使用变量替代rpc地址
+start_command_template="while true; do ore --rpc $rpc_address --keypair ~/.config/solana/idX.json --priority-fee 1 mine --threads 4; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+
+# 确保.solana目录存在
+mkdir -p ~/.config/solana
+
+# 循环创建配置文件和启动挖矿进程
+for (( i=1; i<=count; i++ ))
+do
+    # 提示用户输入私钥
+    echo "为id${i}.json输入私钥 (格式为包含64个数字的JSON数组):"
+    read -p "私钥: " private_key
+
+    # 生成配置文件路径
+    config_file=~/.config/solana/id${i}.json
+
+    # 直接将私钥写入配置文件
+    echo $private_key > $config_file
+
+    # 检查配置文件是否成功创建
+    if [ ! -f $config_file ]; then
+        echo "创建id${i}.json失败，请检查私钥是否正确并重试。"
+        exit 1
+    fi
+
+    # 生成会话名
+    session_name="${session_base_name}_${i}"
+
+    # 替换启动命令中的配置文件名和RPC地址
+    start_command=${start_command_template//idX/id${i}}
+
+    # 打印开始信息
+    echo "开始挖矿，会话名称为 $session_name ..."
+
+    # 使用 screen 在后台启动挖矿进程
+    screen -dmS "$session_name" bash -c "$start_command"
+
+    # 打印挖矿进程启动信息
+    echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
+    echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
+done
+
+
+}
 
 # 主菜单
 function main_menu() {
@@ -212,6 +271,7 @@ function main_menu() {
         echo "4. 查看挖矿收益"
         echo "5. 领取挖矿收益"
         echo "6. 查看节点运行情况"
+        echo "7. 单机多开钱包，需要自行准备json私钥"
         read -p "请输入选项（1-6）: " OPTION
 
         case $OPTION in
@@ -221,6 +281,7 @@ function main_menu() {
         4) view_rewards ;;
         5) claim_rewards ;;
         6) check_logs ;;
+        7) multiple ;; 
         esac
         echo "按任意键返回主菜单..."
         read -n 1
