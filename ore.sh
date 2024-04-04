@@ -205,7 +205,7 @@ function main_menu() {
         echo "4. 查看挖矿收益"
         echo "5. 领取挖矿收益"
         echo "6. 查看节点运行情况"
-        read -p "请输入选项（1-3）: " OPTION
+        read -p "请输入选项（1-6）: " OPTION
 
         case $OPTION in
         1) install_node ;;
