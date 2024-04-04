@@ -80,10 +80,9 @@ function export_wallet() {
     echo "正在恢复Solana钱包..."
     # 提示用户输入助记词
     echo "请输入你的助记词，用空格分隔："
-    read -r mnemonic
 
     # 使用助记词恢复钱包
-    echo $mnemonic | solana-keygen recover 'prompt:?key=0/0' --force > ~/.config/solana/id.json
+    solana-keygen recover 'prompt:?key=0/0' --force
 
     echo "钱包已恢复。"
     echo "请确保你的钱包地址已经充足的 SOL 用于交易费用。"
