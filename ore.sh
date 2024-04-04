@@ -171,6 +171,22 @@ echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
 
 }
 
+
+# 查询奖励
+function view_rewards() {
+    ore --rpc https://api.mainnet-beta.solana.com --keypair ~/.config/solana/id.json rewards
+}
+
+# 领取奖励
+function claim_rewards() {
+    ore --rpc https://api.mainnet-beta.solana.com --keypair ~/.config/solana/id.json claim
+}
+
+
+
+
+
+
 # 主菜单
 function main_menu() {
     while true; do
@@ -184,12 +200,16 @@ function main_menu() {
         echo "1. 安装新节点"
         echo "2. 导入钱包运行"
         echo "3. 单独启动运行"
+        echo "4. 查看挖矿收益"
+        echo "5. 领取挖矿收益"
         read -p "请输入选项（1-3）: " OPTION
 
         case $OPTION in
         1) install_node ;;
         2) export_wallet ;;
         3) start ;;
+        4) view_rewards ;;
+        5) claim_rewards ;;
         esac
         echo "按任意键返回主菜单..."
         read -n 1
