@@ -22,6 +22,7 @@ sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
 if ! command -v solana-keygen &> /dev/null; then
     echo "将 Solana CLI 添加到 PATH"
     export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+    export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # 创建 Solana 密钥对
@@ -117,6 +118,8 @@ function check_and_install_dependencies() {
         echo "Rust 和 Cargo 未安装，正在安装..."
         curl https://sh.rustup.rs -sSf | sh -s -- -y
         source $HOME/.cargo/env
+        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+        export PATH="$HOME/.cargo/bin:$PATH"
     else
         echo "Rust 和 Cargo 已安装。"
     fi
