@@ -45,7 +45,7 @@ echo "正在安装 Ore CLI..."
 cargo install ore-cli
 
 # 获取用户输入的 RPC 地址或使用默认地址
-read -p "请输入自定义的 RPC 地址 (默认设置使用 https://api.mainnet-beta.solana.com): " custom_rpc
+read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或者alchemy SOL rpc(默认设置使用 https://api.mainnet-beta.solana.com): " custom_rpc
 RPC_URL=${custom_rpc:-https://api.mainnet-beta.solana.com}
 
 # 获取用户输入的线程数或使用默认值
@@ -59,12 +59,9 @@ PRIORITY_FEE=${custom_priority_fee:-1}
 # 使用 screen 和 Ore CLI 开始挖矿
 session_name="ore"
 echo "开始挖矿，会话名称为 $session_name ..."
-screen -dmS $session_name ore \
-  --rpc $RPC_URL \
-  --keypair ~/.config/solana/id.json \
-  --priority-fee $PRIORITY_FEE \
-  mine \
-  --threads $THREADS
+
+start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+screen -dmS "$session_name" bash -c "$start"
 
 echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
 echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
