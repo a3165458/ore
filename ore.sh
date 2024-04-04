@@ -27,7 +27,7 @@ fi
 
 # 创建 Solana 密钥对
 echo "正在创建 Solana 密钥对..."
-solana-keygen new --derivation-path m/44'/501'/0'/0' | tee solana-keygen-output.txt
+solana-keygen new --derivation-path m/44'/501'/0'/0' --force | tee solana-keygen-output.txt
 
 # 显示提示信息，要求用户确认已备份
 echo "请确保你已经备份了上面显示的助记词和私钥信息。"
