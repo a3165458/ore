@@ -122,8 +122,6 @@ function check_and_install_dependencies() {
         echo "Rust 和 Cargo 未安装，正在安装..."
         curl https://sh.rustup.rs -sSf | sh -s -- -y
         source $HOME/.cargo/env
-        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-        export PATH="$HOME/.cargo/bin:$PATH"
     else
         echo "Rust 和 Cargo 已安装。"
     fi
@@ -143,6 +141,9 @@ function check_and_install_dependencies() {
     else
         echo "Ore CLI 已安装。"
     fi
+
+        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+        export PATH="$HOME/.cargo/bin:$PATH"
 }
 
 function start() {
