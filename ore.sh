@@ -272,7 +272,7 @@ function main_menu() {
         echo "5. 领取挖矿收益"
         echo "6. 查看节点运行情况"
         echo "7. 单机多开钱包，需要自行准备json私钥"
-        read -p "请输入选项（1-6）: " OPTION
+        read -p "请输入选项（1-7）: " OPTION
 
         case $OPTION in
         1) install_node ;;
