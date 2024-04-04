@@ -75,6 +75,11 @@ echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
 # 查看节点同步状态
 # 恢复Solana钱包并开始挖矿
 function export_wallet() {
+    # 更新系统和安装必要的包
+    echo "更新系统软件包..."
+    sudo apt update && sudo apt upgrade -y
+    echo "安装必要的工具和依赖..."
+    sudo apt install -y curl build-essential jq git libssl-dev pkg-config screen
     check_and_install_dependencies
     
     echo "正在恢复Solana钱包..."
