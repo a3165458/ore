@@ -30,6 +30,8 @@ if ! command -v solana-keygen &> /dev/null; then
     echo "将 Solana CLI 添加到 PATH"
     export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
     export PATH="$HOME/.cargo/bin:$PATH"
+    
+
 fi
 
 # 创建 Solana 密钥对
@@ -54,6 +56,15 @@ fi
 # 安装 Ore CLI
 echo "正在安装 Ore CLI..."
 cargo install ore-cli
+
+# 检查并将Solana的路径添加到 .bashrc，如果它还没有被添加
+grep -qxF 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' >> ~/.bashrc
+
+# 检查并将Cargo的路径添加到 .bashrc，如果它还没有被添加
+grep -qxF 'export PATH="$HOME/.cargo/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
+
+# 使改动生效
+source ~/.bashrc
 
 # 获取用户输入的 RPC 地址或使用默认地址
 read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或者alchemy SOL rpc(默认设置使用 https://api.mainnet-beta.solana.com): " custom_rpc
@@ -98,6 +109,15 @@ function export_wallet() {
 
     echo "钱包已恢复。"
     echo "请确保你的钱包地址已经充足的 SOL 用于交易费用。"
+
+# 检查并将Solana的路径添加到 .bashrc，如果它还没有被添加
+grep -qxF 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' >> ~/.bashrc
+
+# 检查并将Cargo的路径添加到 .bashrc，如果它还没有被添加
+grep -qxF 'export PATH="$HOME/.cargo/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
+
+# 使改动生效
+source ~/.bashrc
 
 
     # 获取用户输入的 RPC 地址或使用默认地址
