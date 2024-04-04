@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+function install_node() {
+
 # 更新系统和安装必要的包
 echo "更新系统软件包..."
 sudo apt update && sudo apt upgrade -y
@@ -65,3 +68,46 @@ screen -dmS "$session_name" bash -c "$start"
 
 echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
 echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
+
+}
+
+# 查看节点同步状态
+function export_wallet() {
+    echo "正在恢复Solana钱包..."
+    # 提示用户输入助记词
+    echo "请输入你的助记词，用空格分隔："
+    read -r mnemonic
+
+    # 使用助记词恢复钱包
+    echo $mnemonic | solana-keygen recover 'prompt:?key=0/0' --force > ~/.config/solana/id.json
+
+    echo "钱包已恢复。"
+    echo "请确保你的钱包地址已经充足的 SOL 用于交易费用。"
+}
+
+
+# 主菜单
+function main_menu() {
+    while true; do
+        clear
+        echo "脚本以及教程由推特用户大赌哥 @y95277777 编写，免费开源，请勿相信收费"
+        echo "================================================================"
+        echo "节点社区 Telegram 群组:https://t.me/niuwuriji"
+        echo "节点社区 Telegram 频道:https://t.me/niuwuriji"
+        echo "退出脚本，请按键盘ctrl c退出即可"
+        echo "请选择要执行的操作:"
+        echo "1. 安装新节点"
+        echo "2. 导入钱包运行"
+        read -p "请输入选项（1-2）: " OPTION
+
+        case $OPTION in
+        1) install_node ;;
+        2) export_wallet ;;
+        esac
+        echo "按任意键返回主菜单..."
+        read -n 1
+    done
+}
+
+# 显示主菜单
+main_menu
