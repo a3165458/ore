@@ -162,13 +162,12 @@ function check_and_install_dependencies() {
     fi
 
     # 检查是否已安装 Ore CLI
-    if ! cargo install ore -V | grep ore-cli &> /dev/null; then
-        echo "Ore CLI 未安装，正在安装..."
-        cargo install ore-cli
-    else
-        echo "Ore CLI 已安装。"
-    fi
-
+if ! ore -V &> /dev/null; then
+    echo "Ore CLI 未安装，正在安装..."
+    cargo install ore-cli
+else
+    echo "Ore CLI 已安装。"
+fi
         export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
         export PATH="$HOME/.cargo/bin:$PATH"
 }
@@ -216,7 +215,6 @@ function check_logs() {
 
 
 function multiple() {
-#!/bin/bash
 
 echo "更新系统软件包..."
 sudo apt update && sudo apt upgrade -y
