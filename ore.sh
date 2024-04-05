@@ -216,6 +216,13 @@ function check_logs() {
 
 function multiple() {
 
+# 提示用户输入RPC配置地址
+read -p "请输入RPC配置地址: " rpc_address
+
+# 用户输入要生成的钱包配置文件数量
+read -p "请输入你想要运行的钱包数量: " count
+
+
 echo "更新系统软件包..."
 sudo apt update && sudo apt upgrade -y
 echo "安装必要的工具和依赖..."
@@ -231,12 +238,6 @@ grep -qxF 'export PATH="$HOME/.cargo/bin:$PATH"' ~/.bashrc || echo 'export PATH=
 
 # 使改动生效
 source ~/.bashrc
-
-# 提示用户输入RPC配置地址
-read -p "请输入RPC配置地址: " rpc_address
-
-# 用户输入要生成的钱包配置文件数量
-read -p "请输入你想要运行的钱包数量: " count
 
 # 基础会话名
 session_base_name="ore"
