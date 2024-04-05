@@ -238,7 +238,7 @@ source ~/.bashrc
 read -p "请输入RPC配置地址: " rpc_address
 
 # 用户输入要生成的钱包配置文件数量
-read -p "请输入你想要生成的钱包配置文件数量: " count
+read -p "请输入你想要运行的钱包数量: " count
 
 # 基础会话名
 session_base_name="ore"
