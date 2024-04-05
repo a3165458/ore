@@ -215,6 +215,7 @@ function check_logs() {
 
 
 function multiple() {
+#!/bin/bash
 
 echo "更新系统软件包..."
 sudo apt update && sudo apt upgrade -y
@@ -232,6 +233,12 @@ grep -qxF 'export PATH="$HOME/.cargo/bin:$PATH"' ~/.bashrc || echo 'export PATH=
 # 使改动生效
 source ~/.bashrc
 
+# 提示用户输入RPC配置地址
+read -p "请输入RPC配置地址: " rpc_address
+
+# 用户输入要生成的钱包配置文件数量
+read -p "请输入你想要运行的钱包数量: " count
+
 # 基础会话名
 session_base_name="ore"
 
@@ -244,16 +251,9 @@ mkdir -p ~/.config/solana
 # 循环创建配置文件和启动挖矿进程
 for (( i=1; i<=count; i++ ))
 do
-
-  # 提示用户输入RPC配置地址
-  read -p "请输入RPC配置地址: " rpc_address
-
-  # 用户输入要生成的钱包配置文件数量
-  read -p "请输入你想要运行的钱包数量: " count
-
-  # 提示用户输入私钥
-  echo "为id${i}.json输入私钥 (格式为包含64个数字的JSON数组):"
-  read -p "私钥: " private_key
+    # 提示用户输入私钥
+    echo "为id${i}.json输入私钥 (格式为包含64个数字的JSON数组):"
+    read -p "私钥: " private_key
 
     # 生成配置文件路径
     config_file=~/.config/solana/id${i}.json
