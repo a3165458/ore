@@ -162,12 +162,13 @@ function check_and_install_dependencies() {
     fi
 
     # 检查是否已安装 Ore CLI
-if ! ore -V &> /dev/null; then
-    echo "Ore CLI 未安装，正在安装..."
-    cargo install ore-cli
-else
-    echo "Ore CLI 已安装。"
-fi
+    if ! cargo install ore-cli --version | grep ore-cli &> /dev/null; then
+        echo "Ore CLI 未安装，正在安装..."
+        cargo install ore-cli
+    else
+        echo "Ore CLI 已安装。"
+    fi
+
         export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
         export PATH="$HOME/.cargo/bin:$PATH"
 }
@@ -223,15 +224,6 @@ echo "安装必要的工具和依赖..."
 sudo apt install -y curl build-essential jq git libssl-dev pkg-config screen
 check_and_install_dependencies
     
-
-# 检查并将Solana的路径添加到 .bashrc，如果它还没有被添加
-grep -qxF 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' >> ~/.bashrc
-
-# 检查并将Cargo的路径添加到 .bashrc，如果它还没有被添加
-grep -qxF 'export PATH="$HOME/.cargo/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
-
-# 使改动生效
-source ~/.bashrc
 
 # 提示用户输入RPC配置地址
 read -p "请输入RPC配置地址: " rpc_address
