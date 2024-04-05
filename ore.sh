@@ -218,8 +218,21 @@ function check_logs() {
 function multiple() {
 #!/bin/bash
 
-# 用户输入要生成的钱包配置文件数量
-#!/bin/bash
+echo "更新系统软件包..."
+sudo apt update && sudo apt upgrade -y
+echo "安装必要的工具和依赖..."
+sudo apt install -y curl build-essential jq git libssl-dev pkg-config screen
+check_and_install_dependencies
+    
+
+# 检查并将Solana的路径添加到 .bashrc，如果它还没有被添加
+grep -qxF 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' >> ~/.bashrc
+
+# 检查并将Cargo的路径添加到 .bashrc，如果它还没有被添加
+grep -qxF 'export PATH="$HOME/.cargo/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
+
+# 使改动生效
+source ~/.bashrc
 
 # 提示用户输入RPC配置地址
 read -p "请输入RPC配置地址: " rpc_address
