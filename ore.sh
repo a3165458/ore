@@ -298,7 +298,7 @@ end=${range[1]}
 
 # 执行循环
 for i in $(seq $start $end); do
-  ore --rpc 自己的rpc --keypair ~/.config/solana/id$i.json --priority-fee 1 rewards
+  ore --rpc https://api.mainnet-beta.solana.com --keypair ~/.config/solana/id$i.json --priority-fee 1 rewards
 done
 
 }
