@@ -304,7 +304,7 @@ function main_menu() {
         echo "节点社区 Telegram 频道:https://t.me/niuwuriji"
         echo "退出脚本，请按键盘ctrl c退出即可"
         echo "请选择要执行的操作:"
-        echo "1. 安装新节点"
+        echo "1. 安装新节点（solanakeygen 新建钱包派生有bug，不是非常建议，优先建议是用功能7导入私钥）"
         echo "2. 导入钱包运行"
         echo "3. 单独启动运行"
         echo "4. 查看挖矿收益"
