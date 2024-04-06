@@ -398,7 +398,7 @@ function main_menu() {
         echo "4. 单机多开钱包不检查环境，需要自行准备json私钥"
         echo "5. 单机多开钱包，查看奖励"
         echo "6. 单机多开钱包，领取奖励"
-        read -p "请输入选项（1-10）: " OPTION
+        read -p "请输入选项（1-6）: " OPTION
 
         case $OPTION in
         1) install_node ;;
