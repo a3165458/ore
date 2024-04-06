@@ -367,7 +367,29 @@ done
 }
 
 function cliam_multiple() {
-# 提示用户同时输入起始和结束编号，用空格分隔
+#!/bin/bash
+
+# 提示用户输入RPC地址
+echo -n "请输入RPC地址（例如：https://api.mainnet-beta.solana.com）: "
+read rpc_address
+
+# 确认用户输入的是有效RPC地址
+if [[ -z "$rpc_address" ]]; then
+  echo "RPC地址不能为空。"
+  exit 1
+fi
+
+# 提示用户输入优先费用
+echo -n "请输入优先费用（单位：lamports，例如：500000）: "
+read priority_fee
+
+# 确认用户输入的是有效的数字
+if ! [[ "$priority_fee" =~ ^[0-9]+$ ]]; then
+  echo "优先费用必须是一个整数。"
+  exit 1
+fi
+
+# 提示用户同时输入起始和结束编号
 echo -n "请输入起始和结束编号，中间用空格分隔比如跑了10个钱包地址，输入1 10即可: "
 read -a range
 
@@ -375,10 +397,17 @@ read -a range
 start=${range[0]}
 end=${range[1]}
 
-# 执行循环
-for i in $(seq $start $end); do
-  ore --rpc https://api.mainnet-beta.solana.com --keypair ~/.config/solana/id$i.json --priority-fee 1 claim
+# 无限循环
+while true; do
+  # 执行循环
+  for i in $(seq $start $end); do
+    echo "执行钱包 $i 并且RPC $rpc_address and 以及 $priority_fee"
+    ore --rpc $rpc_address --keypair ~/.config/solana/id$i.json --priority-fee $priority_fee claim
+    
+    done
+  echo "成功领取 $start to $end."
 done
+
 
 }
 
@@ -401,7 +430,7 @@ function main_menu() {
         echo "7. （适合首次安装）单机多开钱包带安装环境，需要自行准备json私钥"
         echo "8. 单机多开钱包不检查环境，需要自行准备json私钥"
         echo "9. 单机多开钱包，查看奖励"
-        echo "10. 单机多开钱包，领取奖励"
+        echo "10. 单机多开钱包，领取奖励（自动轮询）"
         read -p "请输入选项（1-10）: " OPTION
 
         case $OPTION in
