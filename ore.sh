@@ -393,20 +393,28 @@ function main_menu() {
         echo "退出脚本，请按键盘ctrl c退出即可"
         echo "请选择要执行的操作:"
         echo "1. 安装新节点（solanakeygen 新建钱包派生有bug，不是非常建议，优先建议是用功能7导入私钥）"
-        echo "2. 查看节点运行情况"
-        echo "3. （适合首次安装）单机多开钱包带安装环境，需要自行准备json私钥"
-        echo "4. 单机多开钱包不检查环境，需要自行准备json私钥"
-        echo "5. 单机多开钱包，查看奖励"
-        echo "6. 单机多开钱包，领取奖励"
-        read -p "请输入选项（1-6）: " OPTION
+        echo "2. 导入钱包运行"
+        echo "3. 单独启动运行"
+        echo "4. 单号领取挖矿收益查看挖矿收益"
+        echo "5. 单号领取挖矿收益"
+        echo "6. 查看节点运行情况"
+        echo "7. （适合首次安装）单机多开钱包带安装环境，需要自行准备json私钥"
+        echo "8. 单机多开钱包不检查环境，需要自行准备json私钥"
+        echo "9. 单机多开钱包，查看奖励"
+        echo "10. 单机多开钱包，领取奖励"
+        read -p "请输入选项（1-10）: " OPTION
 
         case $OPTION in
         1) install_node ;;
-        2) check_logs ;;
-        3) multiple ;;
-        4) lonely ;; 
-        5) check_multiple ;;
-        6) cliam_multiple ;; 
+        2) export_wallet ;;
+        3) start ;;
+        4) view_rewards ;;
+        5) claim_rewards ;;
+        6) check_logs ;;
+        7) multiple ;;
+        8) lonely ;; 
+        9) check_multiple ;;
+        10) cliam_multiple ;; 
         esac
         echo "按任意键返回主菜单..."
         read -n 1
