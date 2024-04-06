@@ -366,7 +366,7 @@ do
 done
 }
 
-function claim_multiple() {
+function cliam_multiple() {
 # 提示用户同时输入起始和结束编号，用空格分隔
 echo -n "请输入起始和结束编号，中间用空格分隔比如跑了10个钱包地址，输入1 10即可: "
 read -a range
