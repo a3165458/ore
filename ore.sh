@@ -366,6 +366,22 @@ do
 done
 }
 
+function claim_multiple() {
+# 提示用户同时输入起始和结束编号，用空格分隔
+echo -n "请输入起始和结束编号，中间用空格分隔比如跑了10个钱包地址，输入1 10即可: "
+read -a range
+
+# 获取起始和结束编号
+start=${range[0]}
+end=${range[1]}
+
+# 执行循环
+for i in $(seq $start $end); do
+  ore --rpc https://api.mainnet-beta.solana.com --keypair ~/.config/solana/id$i.json --priority-fee 1 claim
+done
+
+}
+
 # 主菜单
 function main_menu() {
     while true; do
@@ -383,9 +399,10 @@ function main_menu() {
         echo "5. 领取挖矿收益"
         echo "6. 查看节点运行情况"
         echo "7. （适合首次安装）单机多开钱包带安装环境，需要自行准备json私钥"
-        echo "8. 单机多开钱包，查看奖励"
-        echo "9. 单机多开钱包不检查环境，需要自行准备json私钥"
-        read -p "请输入选项（1-7）: " OPTION
+        echo "8. 单机多开钱包不检查环境，需要自行准备json私钥"
+        echo "9. 单机多开钱包，查看奖励"
+        echo "10. 单机多开钱包，领取奖励"
+        read -p "请输入选项（1-10）: " OPTION
 
         case $OPTION in
         1) install_node ;;
@@ -394,9 +411,10 @@ function main_menu() {
         4) view_rewards ;;
         5) claim_rewards ;;
         6) check_logs ;;
-        7) multiple ;; 
-        8) check_multiple ;; 
-        9) lonely ;; 
+        7) multiple ;;
+        8) lonely ;; 
+        9) check_multiple ;;
+        10) cliam_multiple ;; 
         esac
         echo "按任意键返回主菜单..."
         read -n 1
