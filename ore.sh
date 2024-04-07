@@ -478,7 +478,7 @@ function main_menu() {
         echo "8. 单机多开钱包不检查安装环境，需要自行准备json私钥"
         echo "9. 单机多开钱包，查看奖励"
         echo "10. 单机多开钱包，领取奖励（自动轮询）"
-        echo "11. 单独更换rpc等配置，并多开自动读取私钥前缀命名监控，请提前安装好jq，不确认安装没，请先执行apt install jq"
+        echo "11. 单独更换rpc等配置，并多开自动读取/.config/solana 下所有json私钥文件并且私钥前缀命名监控，请提前安装好jq，不确认安装没，请先执行apt install jq"
         read -p "请输入选项（1-11）: " OPTION
 
         case $OPTION in
