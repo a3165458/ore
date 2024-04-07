@@ -288,7 +288,13 @@ done
 
 function check_multiple() {
 # 提示用户同时输入起始和结束编号，用空格分隔
-echo -n "请输入起始和结束编号，中间用空格分隔比如跑了10个钱包地址，输入1 10即可: "
+
+# 提示用户输入RPC地址
+echo -n "请输入RPC地址（例如 https://api.mainnet-beta.solana.com）: "
+read rpc_address
+
+# 提示用户同时输入起始和结束编号，用空格分隔
+echo -n "请输入起始和结束编号，中间用空格分隔（例如，对于10个钱包地址，输入1 10）: "
 read -a range
 
 # 获取起始和结束编号
@@ -297,8 +303,9 @@ end=${range[1]}
 
 # 执行循环
 for i in $(seq $start $end); do
-  ore --rpc https://api.mainnet-beta.solana.com --keypair ~/.config/solana/id$i.json --priority-fee 1 rewards
+  ore --rpc $rpc_address --keypair ~/.config/solana/id$i.json --priority-fee 1 rewards
 done
+
 
 }
 
