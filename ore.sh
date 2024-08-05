@@ -71,8 +71,8 @@ read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或�
 RPC_URL=${custom_rpc:-https://api.mainnet-beta.solana.com}
 
 # 获取用户输入的线程数或使用默认值
-read -p "请输入挖矿时要使用的线程数 (默认设置 4): " custom_threads
-THREADS=${custom_threads:-4}
+read -p "请输入挖矿时要使用的线程数 (默认设置 1): " custom_threads
+THREADS=${custom_threads:-1}
 
 # 获取用户输入的优先费用或使用默认值
 read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
@@ -125,8 +125,8 @@ source ~/.bashrc
     RPC_URL=${custom_rpc:-https://api.mainnet-beta.solana.com}
 
     # 获取用户输入的线程数或使用默认值
-    read -p "请输入挖矿时要使用的线程数 (默认设置 4): " custom_threads
-    THREADS=${custom_threads:-4}
+    read -p "请输入挖矿时要使用的线程数 (默认设置 1): " custom_threads
+    THREADS=${custom_threads:-1}
 
     # 获取用户输入的优先费用或使用默认值
     read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
@@ -179,8 +179,8 @@ read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或�
 RPC_URL=${custom_rpc:-https://api.mainnet-beta.solana.com}
 
 # 获取用户输入的线程数或使用默认值
-read -p "请输入挖矿时要使用的线程数 (默认设置 4): " custom_threads
-THREADS=${custom_threads:-4}
+read -p "请输入挖矿时要使用的线程数 (默认设置 1): " custom_threads
+THREADS=${custom_threads:-1}
 
 # 获取用户输入的优先费用或使用默认值
 read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
@@ -236,8 +236,8 @@ read -p "请输入交易的优先费用 (默认设置为 1): " priority_fee
 priority_fee=${priority_fee:-1}
 
 # 用户输入线程数
-read -p "请输入挖矿时要使用的线程数 (默认设置为 4): " threads
-threads=${threads:-4}
+read -p "请输入挖矿时要使用的线程数 (默认设置为 1): " threads
+threads=${threads:-1}
 
 # 基础会话名
 session_base_name="ore"
@@ -323,8 +323,8 @@ read -p "请输入交易的优先费用 (默认设置为 1): " priority_fee
 priority_fee=${priority_fee:-1}
 
 # 用户输入线程数
-read -p "请输入挖矿时要使用的线程数 (默认设置为 4): " threads
-threads=${threads:-4}
+read -p "请输入挖矿时要使用的线程数 (默认设置为 1): " threads
+threads=${threads:-1}
 
 # 基础会话名
 session_base_name="ore"
@@ -428,8 +428,8 @@ read -p "请输入交易的优先费用 (默认设置为 1): " priority_fee
 priority_fee=${priority_fee:-1}
 
 # 用户输入线程数
-read -p "请输入挖矿时要使用的线程数 (默认设置为 4): " threads
-threads=${threads:-4}
+read -p "请输入挖矿时要使用的线程数 (默认设置为 1): " threads
+threads=${threads:-1}
 
 # 基础会话名
 session_base_name="ore"
@@ -464,6 +464,11 @@ done
 
 }
 
+function benchmark() {
+read -p "请输入挖矿时要使用的线程数 : " threads
+ore benchmark --threads "$threads"
+
+}
 
 # 主菜单
 function main_menu() {
@@ -486,7 +491,8 @@ function main_menu() {
         echo "9. 单机多开钱包，查看奖励"
         echo "10. 单机多开钱包，领取奖励（自动轮询）"
         echo "11. 单独更换rpc等配置，并多开自动读取/.config/solana 下所有json私钥文件并且私钥前缀命名监控，请提前安装好jq，不确认安装没，请先执行apt install jq"
-        read -p "请输入选项（1-11）: " OPTION
+        echo "12.算力测试"
+        read -p "请输入选项（1-12）: " OPTION
 
         case $OPTION in
         1) install_node ;;
@@ -500,6 +506,7 @@ function main_menu() {
         9) check_multiple ;;
         10) cliam_multiple ;; 
         11) rerun_rpc ;; 
+        12) benchmark ;;
         esac
         echo "按任意键返回主菜单..."
         read -n 1
