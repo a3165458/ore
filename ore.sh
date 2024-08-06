@@ -506,6 +506,8 @@ screen -dmS "$session_name" bash -c "$start"
 echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
 echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
 
+}
+
 # 主菜单
 function main_menu() {
     while true; do
