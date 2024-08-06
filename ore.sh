@@ -530,7 +530,7 @@ function main_menu() {
         echo "10. 单机多开钱包，领取奖励（自动轮询）"
         echo "11. 单独更换rpc等配置，并多开自动读取/.config/solana 下所有json私钥文件并且私钥前缀命名监控，请提前安装好jq，不确认安装没，请先执行apt install jq"
         echo "12.算力测试"
-        echo "13.低费率jito版本"
+        echo "13.低费率jito版本(群友rayshaw97提供)"
         read -p "请输入选项（1-13）: " OPTION
 
         case $OPTION in
