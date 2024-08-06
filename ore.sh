@@ -206,7 +206,7 @@ function view_rewards() {
 
 # 领取奖励
 function claim_rewards() {
-    ore --rpc https://api.mainnet-beta.solana.com --keypair ~/.config/solana/id.json claim
+    ore --rpc https://api.mainnet-beta.solana.com --keypair ~/.config/solana/id.json --priority-fee 50000  claim
 }
 
 
