@@ -423,7 +423,7 @@ function jito() {
     cp ore /usr/bin
 
     # 提示用户输入私钥
-    echo "为id${i}.json输入私钥 (格式为包含64个数字的JSON数组):"
+    echo "为id.json输入私钥 (格式为包含64个数字的JSON数组):"
     read -p "私钥: " private_key
 
     # 生成配置文件路径
@@ -444,6 +444,40 @@ function jito() {
     echo "开始挖矿，会话名称为 $session_name ..."
 
     start="while true; do ore --rpc $RPC_URL --keypair ~/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    screen -dmS "$session_name" bash -c "$start"
+
+    echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
+    echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
+}
+
+
+function dynamic_fee() {
+ 
+    # 提示用户输入私钥
+    echo "为id.json输入私钥 (格式为包含64个数字的JSON数组):"
+    read -p "私钥: " private_key
+
+    # 生成配置文件路径
+    config_file=~/id.json
+
+    # 直接将私钥写入配置文件
+    echo $private_key > $config_file
+
+    read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或者alchemy SOL rpc(默认设置使用 https://api.mainnet-beta.solana.com): " custom_rpc
+    RPC_URL=${custom_rpc:-https://node.onekey.so/sol}
+
+    # 获取用户输入的优先费用或使用默认值
+    read -p "请输入交易的优先费用 (默认设置 15000): " custom_priority_fee
+    PRIORITY_FEE=${custom_priority_fee:-15000}
+
+    read -p "请输入动态费用估算的 RPC URL (需要helius或者triton的rpc): " dynamic_fee_url
+    read -p "请输入动态费用估算策略 (helius 或 triton): " dynamic_fee_strategy
+
+    # 使用 screen 和 Ore CLI 开始挖矿
+    session_name="ore"
+    echo "开始挖矿，会话名称为 $session_name ..."
+
+    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json --priority-fee $PRIORITY_FEE mine --dynamic-fee-url $dynamic_fee_url --dynamic-fee-strategy $dynamic_fee_strategy; echo '进程异常退出，等待重启' >&2; sleep 1; done"
     screen -dmS "$session_name" bash -c "$start"
 
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
@@ -473,7 +507,8 @@ function main_menu() {
         echo "11. 单独更换rpc等配置，并多开自动读取/.config/solana 下所有json私钥文件并且私钥前缀命名监控，请提前安装好jq，不确认安装没，请先执行apt install jq"
         echo "12.算力测试"
         echo "13.低费率jito版本(群友rayshaw97提供)"
-        read -p "请输入选项（1-13）: " OPTION
+        echo "14.动态费率启动(需要ore-cli 2.0版本以上)"
+        read -p "请输入选项（1-14）: " OPTION
 
         case $OPTION in
         1) install_node ;;
@@ -489,6 +524,7 @@ function main_menu() {
         11) rerun_rpc ;;
         12) benchmark ;;
         13) jito ;;
+        14) dynamic_fee ;;
         esac
         echo "按任意键返回主菜单..."
         read -n 1
