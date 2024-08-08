@@ -464,14 +464,14 @@ function jito() {
     PRIORITY_FEE=${custom_priority_fee:-15000}
 
     # 获取用户输入的核心数量或使用默认值
-    read -p "请输入要使用的核心数量 (默认设置为 1): " custom_cores
-    cores=${custom_cores:-1}
+    read -p "请输入要使用的核心数量 (默认设置为 1): " threads
+    threads=${custom_cores:-1}
 
     # 使用 screen 和 Ore CLI 开始挖矿
     session_name="ore"
     echo "开始挖矿，会话名称为 $session_name ..."
 
-    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json --priority-fee $PRIORITY_FEE mine --cores $cores; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json --priority-fee $PRIORITY_FEE mine --threads $threads; echo '进程异常退出，等待重启' >&2; sleep 1; done"
     screen -dmS "$session_name" bash -c "$start"
 
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
