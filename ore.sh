@@ -413,8 +413,8 @@ function rerun_rpc() {
 }
 
 function benchmark() {
-    read -p "请输入挖矿时要使用的线程数 : " threads
-    ore benchmark --threads "$threads"
+    read -p "请输入挖矿时要使用的线程数 : " cores
+    ore benchmark --cores "$cores"
 }
 
 function jito() {
@@ -443,7 +443,7 @@ function jito() {
     session_name="ore"
     echo "开始挖矿，会话名称为 $session_name ..."
 
-    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json --priority-fee $PRIORITY_FEE mine --cores $cores; echo '进程异常退出，等待重启' >&2; sleep 1; done"
     screen -dmS "$session_name" bash -c "$start"
 
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
