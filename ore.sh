@@ -466,9 +466,6 @@ function dynamic_fee() {
     read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或者alchemy SOL rpc(默认设置使用 https://api.mainnet-beta.solana.com): " custom_rpc
     RPC_URL=${custom_rpc:-https://node.onekey.so/sol}
 
-    # 获取用户输入的优先费用或使用默认值
-    read -p "请输入交易的优先费用 (默认设置 15000): " custom_priority_fee
-    PRIORITY_FEE=${custom_priority_fee:-15000}
 
     read -p "请输入动态费用估算的 RPC URL (需要helius或者triton的rpc): " dynamic_fee_url
     read -p "请输入动态费用估算策略 (helius 或 triton): " dynamic_fee_strategy
@@ -477,7 +474,7 @@ function dynamic_fee() {
     session_name="ore"
     echo "开始挖矿，会话名称为 $session_name ..."
 
-    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json --priority-fee $PRIORITY_FEE mine --dynamic-fee-url $dynamic_fee_url --dynamic-fee-strategy $dynamic_fee_strategy; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json mine --dynamic-fee-url $dynamic_fee_url --dynamic-fee-strategy $dynamic_fee_strategy; echo '进程异常退出，等待重启' >&2; sleep 1; done"
     screen -dmS "$session_name" bash -c "$start"
 
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
