@@ -69,11 +69,15 @@ function install_node() {
     read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
     PRIORITY_FEE=${custom_priority_fee:-1}
 
+    # 获取用户输入的核心数量或使用默认值
+    read -p "请输入要使用的核心数量 (默认设置 1): " custom_cores
+    CORES=${custom_cores:-1}
+
     # 使用 screen 和 Ore CLI 开始挖矿
     session_name="ore"
     echo "开始挖矿，会话名称为 $session_name ..."
 
-    start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --cores $CORES; echo '进程异常退出，等待重启' >&2; sleep 1; done"
     screen -dmS "$session_name" bash -c "$start"
 
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
@@ -117,11 +121,15 @@ function export_wallet() {
     read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
     PRIORITY_FEE=${custom_priority_fee:-1}
 
+    # 获取用户输入的核心数量或使用默认值
+    read -p "请输入要使用的核心数量 (默认设置 1): " custom_cores
+    CORES=${custom_cores:-1}
+
     # 使用 screen 和 Ore CLI 开始挖矿
     session_name="ore"
     echo "开始挖矿，会话名称为 $session_name ..."
 
-    start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --cores $CORES; echo '进程异常退出，等待重启' >&2; sleep 1; done"
     screen -dmS "$session_name" bash -c "$start"
 
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
@@ -167,11 +175,15 @@ function start() {
     read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
     PRIORITY_FEE=${custom_priority_fee:-1}
 
+    # 获取用户输入的核心数量或使用默认值
+    read -p "请输入要使用的核心数量 (默认设置 1): " custom_cores
+    CORES=${custom_cores:-1}
+
     # 使用 screen 和 Ore CLI 开始挖矿
     session_name="ore"
     echo "开始挖矿，会话名称为 $session_name ..."
 
-    start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --cores $CORES; echo '进程异常退出，等待重启' >&2; sleep 1; done"
     screen -dmS "$session_name" bash -c "$start"
 
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
@@ -209,11 +221,15 @@ function multiple() {
     read -p "请输入交易的优先费用 (默认设置为 1): " priority_fee
     priority_fee=${priority_fee:-1}
 
+    # 用户输入核心数量
+    read -p "请输入要使用的核心数量 (默认设置为 1): " custom_cores
+    cores=${custom_cores:-1}
+
     # 基础会话名
     session_base_name="ore"
 
     # 启动命令模板，使用变量替代rpc地址和优先费用
-    start_command_template="while true; do ore --rpc $rpc_address --keypair ~/.config/solana/idX.json --priority-fee $priority_fee mine; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start_command_template="while true; do ore --rpc $rpc_address --keypair ~/.config/solana/idX.json --priority-fee $priority_fee mine --cores $cores; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 
     # 确保.solana目录存在
     mkdir -p ~/.config/solana
@@ -287,11 +303,15 @@ function lonely() {
     read -p "请输入交易的优先费用 (默认设置为 1): " priority_fee
     priority_fee=${priority_fee:-1}
 
+    # 用户输入核心数量
+    read -p "请输入要使用的核心数量 (默认设置为 1): " custom_cores
+    cores=${custom_cores:-1}
+
     # 基础会话名
     session_base_name="ore"
 
     # 启动命令模板，使用变量替代rpc地址和优先费用
-    start_command_template="while true; do ore --rpc $rpc_address --keypair ~/.config/solana/idX.json --priority-fee $priority_fee mine; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start_command_template="while true; do ore --rpc $rpc_address --keypair ~/.config/solana/idX.json --priority-fee $priority_fee mine --cores $cores; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 
     # 确保.solana目录存在
     mkdir -p ~/.config/solana
@@ -339,7 +359,7 @@ function cliam_multiple() {
     read rpc_address
 
     # 确认用户输入的是有效RPC地址
-    if [[ -z "$rpc_address" ]]; then
+    if [[ -z "$rpc_address" ]];then
         echo "RPC地址不能为空。"
         exit 1
     fi
@@ -366,7 +386,7 @@ function cliam_multiple() {
     while true; do
         # 执行循环
         for i in $(seq $start $end); do
-            echo "执行钱包 $i 并且RPC $rpc_address and 以及 $priority_fee"
+            echo "执行钱包 $i 并且RPC $rpc_address 和 $priority_fee"
             ore --rpc $rpc_address --keypair ~/.config/solana/id$i.json --priority-fee $priority_fee claim
         done
         echo "成功领取 $start to $end."
@@ -381,11 +401,15 @@ function rerun_rpc() {
     read -p "请输入交易的优先费用 (默认设置为 1): " priority_fee
     priority_fee=${priority_fee:-1}
 
+    # 用户输入核心数量
+    read -p "请输入要使用的核心数量 (默认设置为 1): " custom_cores
+    cores=${custom_cores:-1}
+
     # 基础会话名
     session_base_name="ore"
 
     # 启动命令模板
-    start_command_template="while true; do ore --rpc $rpc_address --keypair {} --priority-fee $priority_fee mine; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start_command_template="while true; do ore --rpc $rpc_address --keypair {} --priority-fee $priority_fee mine --cores $cores; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 
     # 自动查找所有的idn.json文件
     config_files=$(find ~/.config/solana -name "id*.json")
@@ -413,7 +437,7 @@ function rerun_rpc() {
 }
 
 function benchmark() {
-    read -p "请输入挖矿时要使用的线程数 : " cores
+    read -p "请输入挖矿时要使用的核心数量 : " cores
     ore benchmark --cores "$cores"
 }
 
@@ -439,6 +463,10 @@ function jito() {
     read -p "请输入交易的优先费用 (默认设置 15000): " custom_priority_fee
     PRIORITY_FEE=${custom_priority_fee:-15000}
 
+    # 获取用户输入的核心数量或使用默认值
+    read -p "请输入要使用的核心数量 (默认设置为 1): " custom_cores
+    cores=${custom_cores:-1}
+
     # 使用 screen 和 Ore CLI 开始挖矿
     session_name="ore"
     echo "开始挖矿，会话名称为 $session_name ..."
@@ -449,7 +477,6 @@ function jito() {
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
     echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
 }
-
 
 function dynamic_fee() {
  
@@ -466,15 +493,18 @@ function dynamic_fee() {
     read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或者alchemy SOL rpc(默认设置使用 https://api.mainnet-beta.solana.com): " custom_rpc
     RPC_URL=${custom_rpc:-https://node.onekey.so/sol}
 
-
     read -p "请输入动态费用估算的 RPC URL (需要helius或者triton的rpc): " dynamic_fee_url
     read -p "请输入动态费用估算策略 (helius 或 triton): " dynamic_fee_strategy
+
+    # 获取用户输入的核心数量或使用默认值
+    read -p "请输入要使用的核心数量 (默认设置为 1): " custom_cores
+    cores=${custom_cores:-1}
 
     # 使用 screen 和 Ore CLI 开始挖矿
     session_name="ore"
     echo "开始挖矿，会话名称为 $session_name ..."
 
-    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json mine --dynamic-fee-url $dynamic_fee_url --dynamic-fee-strategy $dynamic_fee_strategy; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+    start="while true; do ore --rpc $RPC_URL --keypair ~/id.json mine --dynamic-fee-url $dynamic_fee_url --dynamic-fee-strategy $dynamic_fee_strategy --cores $cores; echo '进程异常退出，等待重启' >&2; sleep 1; done"
     screen -dmS "$session_name" bash -c "$start"
 
     echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
